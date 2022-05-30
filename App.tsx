@@ -5,12 +5,15 @@ import {ThemeProvider} from 'styled-components/native';
 import theme from './src/global/styles/theme';
 import SignInNavigation from './src/navigation/SignInNavigation';
 import Login from './src/screens/Login';
+import AuthProvider from './src/contexts/homeContexts/auth';
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
-        <SignInNavigation />
+        <AuthProvider>
+          <SignInNavigation />
+        </AuthProvider>
       </NavigationContainer>
     </ThemeProvider>
   );

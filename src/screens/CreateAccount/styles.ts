@@ -14,7 +14,7 @@ export const CreateAccountLabel = styled(Text)`
 
 export const DescriptionAccountLabel = styled(Text)`
     text-align: center;
-    color: ${({theme}) =>  theme.colors.placeholder};
+    color: ${({theme}) =>  theme.colors.text};
 `;
 
 export const Content = styled.View`

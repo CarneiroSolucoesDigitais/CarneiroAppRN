@@ -5,7 +5,7 @@ import { useTheme } from 'styled-components';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Separator from '../../components/Separator';
-import {schemaLogin} from '../Login/validations';
+import { schemaCreateAccount } from './validations';
 
 import {
   Container,
@@ -16,6 +16,8 @@ import {
   Footer,
   SingInLabel,
 } from './styles';
+import { useNavigation } from '@react-navigation/native';
+import { Pressable } from 'react-native';
 
 const CreateAccount = () => {
   const {colors} = useTheme();
@@ -31,18 +33,26 @@ const CreateAccount = () => {
     setValue,
     formState: {errors},
   } = useForm({
-    resolver: yupResolver(schemaLogin),
+    resolver: yupResolver(schemaCreateAccount),
     defaultValues: {
+      name: '',
       email: '',
+      phoneNumber: '',
       password: '',
     },
   });
 
   const onSubmit = async () => {
-    await handleSubmit(({email, password}) => {
+    await handleSubmit(({name, email, phoneNumber, password}) => {
       login();
     })();
   };
+
+  const { navigate } = useNavigation();
+
+  const handleNavigateToLogin = () => {
+    navigate('Login')
+  }
 
   return (
     <Container>
@@ -56,19 +66,18 @@ const CreateAccount = () => {
       <Content>
         <Controller
           control={control}
-          name="email"
+          name="name"
           render={({field: {onChange, onBlur, value}}) => {
             return (
               <Input
                 autoCapitalize="none"
-                keyboardType="email-address"
                 name="Nome"
                 placeholder="Digite seu nome"
                 onChange={onChange}
-                onChangeText={text => setValue('email', text)}
+                onChangeText={text => setValue('name', text)}
                 onBlur={onBlur}
                 value={value}
-                error={errors.email?.message}
+                error={errors.name?.message}
               />
             );
           }}
@@ -84,10 +93,10 @@ const CreateAccount = () => {
                 name="E-mail"
                 placeholder="Digite seu email"
                 onChange={onChange}
-                onChangeText={text => setValue('password', text)}
+                onChangeText={text => setValue('email', text)}
                 onBlur={onBlur}
                 value={value}
-                error={errors.password?.message}
+                error={errors.email?.message}
               />
             );
           }}
@@ -96,7 +105,7 @@ const CreateAccount = () => {
 
         <Controller
           control={control}
-          name="password"
+          name="phoneNumber"
           render={({field: {onChange, onBlur, value}}) => {
             return (
               <Input
@@ -104,10 +113,10 @@ const CreateAccount = () => {
                 name="Telefone"
                 placeholder="Digite seu telefone"
                 onChange={onChange}
-                onChangeText={text => setValue('password', text)}
+                onChangeText={text => setValue('phoneNumber', text)}
                 onBlur={onBlur}
                 value={value}
-                error={errors.password?.message}
+                error={errors.phoneNumber?.message}
               />
             );
           }}
@@ -140,7 +149,9 @@ const CreateAccount = () => {
         <Footer>
           <HaveAccountLabel>Já tem uma conta?</HaveAccountLabel>
           <Separator width={5}/>
-          <SingInLabel>Faça Login</SingInLabel>
+          <Pressable onPress={handleNavigateToLogin}>
+            <SingInLabel>Faça Login</SingInLabel>
+          </Pressable>
         </Footer>
       </Content>
     </Container>
